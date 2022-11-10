@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
 import 'dart:math';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   String ketqua ="0";
   String Hienthi ="" ;
   buttonPress(String Click){
-    if (Click == "AC"){
+    if (Click == "C"){
       ketqua = "";
       Sodau = 0;
       Sosau = 0;
@@ -27,9 +26,11 @@ class _HomePageState extends State<HomePage> {
       ketqua = "";
       opp = Click;
     }
-    else if (opp == "."){
+    else if (Click == "<=") {
+      ketqua = Hienthi.substring(0, Hienthi.length - 1);
+    }
+    else if (Click == "."){
       if (ketqua.contains(".")){
-        print("No");
         return;
       }
       else{
@@ -50,12 +51,6 @@ class _HomePageState extends State<HomePage> {
       else if (opp == "/") {
         ketqua = (Sodau / Sosau).toString();
       }
-      else if (opp == "^2") {
-        ketqua = (Sodau * Sodau).toString();
-      }
-      else if (opp == "Căn") {
-        ketqua = (sqrt(Sodau)).toString();
-      }
     }
     else {
       ketqua = int.parse(Hienthi + Click).toString();
@@ -65,6 +60,24 @@ class _HomePageState extends State<HomePage> {
       Hienthi = ketqua;
     });
 
+  }
+  Widget Button2(String Click, Color Clickcolor, Color txtcolor){
+    return Container(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: StadiumBorder(),
+          fixedSize: Size(160, 80),
+          primary: Clickcolor,
+        ),
+        onPressed: () => buttonPress(Click),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(28, 12, 90, 12),
+          child: Text(Click,
+            style: TextStyle(fontSize: 30, color: txtcolor),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget Button(String Click, Color Clickcolor, Color txtcolor){
@@ -77,10 +90,8 @@ class _HomePageState extends State<HomePage> {
         ),
         onPressed: () => buttonPress(Click),
         child: Text(Click,
-          style: TextStyle(fontSize: 25, color: txtcolor),
-
+          style: TextStyle(fontSize: 30, color: txtcolor),
         ),
-
       ),
     );
   }
@@ -110,9 +121,8 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Button("AC", Colors.grey, Colors.black),
-                Button("Căn", Colors.grey, Colors.black),
-                Button("^2", Colors.grey, Colors.black),
+                Button2("C", Colors.grey, Colors.black),
+                Button("<=", Colors.grey, Colors.black),
                 Button("/", Colors.orangeAccent, Colors.white),
               ],
             ),
@@ -147,13 +157,14 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             SizedBox(height: 10),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Button("0", Colors.grey, Colors.black),
+                Button2("0", Colors.grey, Colors.black),
                 Button(".", Colors.grey, Colors.black),
                 Button("=", Colors.orangeAccent, Colors.white),
-              ],
+            ],
             ),
 
           ],
